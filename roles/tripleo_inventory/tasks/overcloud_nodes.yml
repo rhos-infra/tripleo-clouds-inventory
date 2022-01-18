@@ -56,6 +56,12 @@
 
 - name: Install virtualenv module
   vars:
+    boolean: |
+      {%- if hostvars[groups['undercloud'][0]]['ansible_python']['version']['major'] == 2 -%}
+        False
+      {%- else -%}
+        True
+      {%- endif -%}
     packages: "{%- if hostvars[groups['undercloud'][0]]['ansible_python']['version']['major'] == 2 -%}
                  virtualenv==16.7.9
                {%- else -%}
@@ -63,7 +69,7 @@
                {%- endif -%}"
   pip:
     name: "{{ packages }}"
-  become: true
+  become: "{{ boolean | default(True) }}"
 
 - name: Install create virtualenv and openstacksdk packages
   vars:
