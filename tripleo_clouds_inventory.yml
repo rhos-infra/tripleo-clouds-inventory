@@ -1,0 +1,7 @@
+---
+
+- name: TripleO Clouds Inventory Generation
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - tripleo_clouds_inventory

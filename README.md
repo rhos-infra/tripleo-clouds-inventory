@@ -1,7 +1,7 @@
-# TripleO Inventory
+# TripleO Clouds Inventory
 
 ## Description
-TripleO Inventory play will generate a new inventory file from the provided Undercloud/Hypervisor host on the existing deployment.
+TripleO Clouds Inventory play will generate a new inventory file from the provided Undercloud/Hypervisor host on the existing deployment.
 
 From time to time, we may get an already installed Openstack environment for work/testing/etc.
 In order to be able to run an Ansible playbooks or different ad-hoc commands against the overcloud nodes,
@@ -137,17 +137,17 @@ undercloud_only: true
 
 ***
 ## Examples
-The example of running the TripleO Inventory playbook.  
+The example of running the TripleO Clouds Inventory playbook.  
 With SSH key file for baremetal environment:
 ```
-ansible-playbook tripleo_inventory.yml -e host=undercloud-host-fqdn/ip -e ssh_key=/path/to/ssh/private/file -e setup_type=baremetal
+ansible-playbook tripleo_clouds_inventory.ymltripleo_clouds_inventory.yml -e host=undercloud-host-fqdn/ip -e ssh_key=/path/to/ssh/private/file -e setup_type=baremetal
 ```
 With SSH key file for hybrid or virt environment:
 ```
-ansible-playbook tripleo_inventory.yml -e host=undercloud-host-fqdn/ip -e user=root -e ssh_key=/path/to/ssh/private/file -e setup_type=virt
+ansible-playbook tripleo_clouds_inventory.yml -e host=undercloud-host-fqdn/ip -e user=root -e ssh_key=/path/to/ssh/private/file -e setup_type=virt
 ```
 
 With password:
 ```
-ansible-playbook tripleo_inventory.yml -e host=undercloud-host-fqdn/ip -e user=root -e ssh_pass=undercloud_password
+ansible-playbook tripleo_clouds_inventory.yml -e host=undercloud-host-fqdn/ip -e user=root -e ssh_pass=undercloud_password
 ```

@@ -1,8 +1,8 @@
-# Infrared tripleo inventory plugin
+# Infrared TripleO Clouds Inventory plugin
 
 In order to use this plugin with infrared, the following command should be executed:
 
-    infrared plugin add https://github.com/rhos-infra/tripleo-inventory.git --src-path infrared_plugin
+    infrared plugin add https://github.com/rhos-infra/tripleo-clouds-inventory.git --src-path infrared_plugin
 
 ## Usage example
 
@@ -12,7 +12,7 @@ Create new infrared workspace:
 
 Run the plugin on your environment:
 
-    infrared tripleo-inventory --host <HOST_NAME> --ssh-key /my/.ssh/id_rsa/path
+    infrared tripleo-clouds-inventory --host <HOST_NAME> --ssh-key /my/.ssh/id_rsa/path
 
 Check Infrared commands work:
 

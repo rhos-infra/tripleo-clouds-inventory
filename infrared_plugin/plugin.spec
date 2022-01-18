@@ -1,7 +1,7 @@
 plugin_type: other
 subparsers:
-    tripleo-inventory:
-        description: Generate an inventory from the existing tripleo environment.
+    tripleo-clouds-inventory:
+        description: Generate an inventory from the existing TripleO environment.
         include_groups: ["Ansible options", "Inventory", "Common options", "Answers file"]
         groups:
             - title: Host variables

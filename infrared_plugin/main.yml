@@ -47,6 +47,6 @@
         hypervisor_groups: "{{ other.hypervisor.groups }}"
 
   roles:
-    - role: tripleo_inventory
+    - role: tripleo_clouds_inventory
     - role: inventory-update
       inventory_file_name: 'tripleo-inventory'
