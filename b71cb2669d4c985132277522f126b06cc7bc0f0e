@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d8bd079_69cc083b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-01-24T23:09:44Z",
+      "side": 1,
+      "message": "Please review this patch, this will really help us to avoid future errors.",
+      "revId": "b71cb2669d4c985132277522f126b06cc7bc0f0e",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
