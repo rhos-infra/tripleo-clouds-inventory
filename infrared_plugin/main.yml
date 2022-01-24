@@ -46,7 +46,13 @@
       set_fact:
         hypervisor_groups: "{{ other.hypervisor.groups }}"
 
-  roles:
-    - role: tripleo_clouds_inventory
-    - role: inventory-update
-      inventory_file_name: 'tripleo-inventory'
+  tasks:
+    - name: TripleO Clouds Inventory
+      ansible.builtin.import_role:
+        name: tripleo_clouds_inventory
+
+    - name: Update Infrared Workspace Inventory
+      ansible.builtin.copy:
+        src: "{{ environment_dir }}/inventory_{{ host }}"
+        dest: "{{ inventory_dir }}/hosts"
+      when: inventory_dir is defined
