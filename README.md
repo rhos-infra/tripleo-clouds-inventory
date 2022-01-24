@@ -135,6 +135,14 @@ Default value is set to - false
 undercloud_only: true
 ```
 
+**This is auto populated when using infrared, if you are not using infrared do not populate this.**  
+Directory of an inventory to copy the locally generated file to.  
+Default value is retrieved from infrared.
+
+```yaml
+inventory_dir: $IR_HOME/.workspaces/<WORKSPACE_NAME>
+```
+
 ***
 ## Examples
 The example of running the TripleO Clouds Inventory playbook.  
