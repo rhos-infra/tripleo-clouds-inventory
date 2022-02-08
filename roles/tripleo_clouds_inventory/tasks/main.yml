@@ -44,7 +44,7 @@
 
 - name: Generate Inventory file
   vars:
-    ansible_python_interpreter: /usr/bin/python
+    ansible_python_interpreter: "{{ local_ansible_python_interpreter }}"
   template:
     src: 'inventory.j2'
     dest: "{{ environment_dir }}/inventory_{{ host }}"
@@ -106,7 +106,7 @@
 
 - name: Update ansible.ssh.config for SSH tunneling
   vars:
-    ansible_python_interpreter: /usr/bin/python
+    ansible_python_interpreter: "{{ local_ansible_python_interpreter }}"
   template:
     src: 'ansible.ssh.config.j2'
     dest: "{{ environment_dir }}/ansible.ssh.config.{{ host }}"
@@ -119,7 +119,7 @@
 
 - name: Generate Inventory file
   vars:
-    ansible_python_interpreter: /usr/bin/python
+    ansible_python_interpreter: "{{ local_ansible_python_interpreter }}"
   template:
     src: 'inventory.j2'
     dest: "{{ environment_dir }}/inventory_{{ host }}"

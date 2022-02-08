@@ -10,9 +10,17 @@
 
     # After generating a local inventory, link it to current infrared workspace
     # Infrared may override this inventory during execution of other plugins
-    - name: Update Infrared Workspace Inventory
+    - name: Sync Generated Inventory With Infrared Workpsace Inventory
       ansible.builtin.file:
         src: "{{ environment_dir }}/inventory_{{ host }}"
         dest: "{{ inventory_dir }}/hosts"
         state: link
         force: True
+
+    # This is required in some scenarios
+    - name: Perform Infrared Workspace Inventory Update
+      vars:
+        inventory_file_name: 'tripleo-clouds-inventory'
+      ansible.builtin.include_role:
+        name: inventory-update
+      when: ir_workspace_update | default(False)

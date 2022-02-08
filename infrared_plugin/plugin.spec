@@ -4,6 +4,21 @@ subparsers:
         description: Generate an inventory from the existing TripleO environment.
         include_groups: ["Ansible options", "Inventory", "Common options", "Answers file"]
         groups:
+            - title: General Configuration
+              options:
+                local-python-interpreter:
+                  type: Value
+                  help: |
+                    Localhost ansible python interpreter.
+                  ansible_variable: 'local_ansible_python_interpreter'
+                ir-workspace-update:
+                  type: Flag
+                  help: |
+                    Update infrared workspace inventory using common role
+                    'inventory-update'.
+                    This is required in some scenarios.
+                  ansible_variable: ir_workspace_update
+
             - title: Host variables
               options:
                   host:

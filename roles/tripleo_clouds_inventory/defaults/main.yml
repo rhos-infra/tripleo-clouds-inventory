@@ -35,7 +35,10 @@ undercloud_groups: undercloud,tester
 # multiple groups should be separated by the comma.
 hypervisor_groups: hypervisor
 
-# Create inventory file with the underlcoud details only if required.
+# Create inventory file with the underlcoud details only if required.
 # By default the variable is used as false.
 # Could be executed as an extra vars - true
 undercloud_only: false
+
+# Localhost python interpreter
+local_ansible_python_interpreter: '/usr/bin/python'

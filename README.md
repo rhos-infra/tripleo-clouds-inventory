@@ -65,6 +65,19 @@ Id_rsa_undercloud.pub - Public key of the id_rsa_undercloud.
 
 ***
 ## Play variables
+
+Path to python executable on localhost that will execute ansible modules.  
+Default: '/usr/bin/python'
+```
+local-python-interpreter: "$(which python"
+```
+
+Perform infrared inventory workspace update using infrared inventory-update role.
+Default: 'False'
+```
+ir-workspace-update
+```
+
 Provide the type of the environment.  
 Default: 'virt'  
 Mandatory variable.
