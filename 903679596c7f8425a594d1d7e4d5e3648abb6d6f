@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ec7b97b_3429ae7a",
+        "filename": "roles/tripleo_clouds_inventory/tasks/overcloud_nodes.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-05-16T13:01:22Z",
+      "side": 1,
+      "message": "this is a relative path to \u0027/home/stack\u0027?",
+      "range": {
+        "startLine": 130,
+        "startChar": 19,
+        "endLine": 130,
+        "endChar": 78
+      },
+      "revId": "903679596c7f8425a594d1d7e4d5e3648abb6d6f",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
