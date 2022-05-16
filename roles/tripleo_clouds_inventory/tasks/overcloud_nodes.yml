@@ -11,11 +11,11 @@
     - name: Install requirements for pip virtualenv
       vars:
         ansible_python_interpreter: /usr/libexec/platform-python
-        os_version: "{%- if hostvars[groups['undercloud'][0]].ansible_distribution_major_version == '8' -%}
-                     rhel8
-                     {%- elif hostvars[groups['undercloud'][0]].ansible_distribution_major_version == '7' -%}
-                     rhel7
-                     {%- endif -%}"
+        os_version: '{%- if hostvars[groups["undercloud"][0]].ansible_distribution_major_version == "7" -%}
+                        rhel7
+                     {%- else -%}
+                        rhel8
+                     {%- endif -%}'
         pkg_ver_list: "{{ packages[os_version] }}"
       package:
         name: "{{ item }}"
@@ -95,27 +95,47 @@
     mode: 0600
   delegate_to: localhost
 
-- name: Grab auth data from stackrc file and publish it as YAML
-  ### ToDo(MaximB): Convert the task to more generic execution.
-  ###               Implement reuse.
-  vars:
-    ansible_python_interpreter: /usr/libexec/platform-python
-  shell: |
-      source "{{ rc_file_path | default('/home/stack/stackrc') }}"
-      echo "
-      auth_url: $OS_AUTH_URL
-      username: $OS_USERNAME
-      password: $OS_PASSWORD
-      project_name: ${OS_PROJECT_NAME:-$OS_TENANT_NAME}
-      user_domain_name: ${OS_USER_DOMAIN_NAME:-''}
-      project_domain_name: ${OS_PROJECT_DOMAIN_NAME:-''}
-      "
-  register: creds
+- name: get overcloud node data osp_version < 17
+  block:
+    - name: Grab auth data from stackrc file and publish it as YAML
+      ### ToDo(MaximB): Convert the task to more generic execution.
+      ###               Implement reuse.
+      vars:
+        ansible_python_interpreter: /usr/libexec/platform-python
+      shell: |
+          source "{{ rc_file_path | default('/home/stack/stackrc') }}"
+          echo "
+          auth_url: $OS_AUTH_URL
+          username: $OS_USERNAME
+          password: $OS_PASSWORD
+          project_name: ${OS_PROJECT_NAME:-$OS_TENANT_NAME}
+          user_domain_name: ${OS_USER_DOMAIN_NAME:-''}
+          project_domain_name: ${OS_PROJECT_DOMAIN_NAME:-''}
+          "
+      register: creds
+    
+    - name: Gather Overcloud nodes data
+      vars:
+        ansible_python_interpreter: "{{ venv_path }}/bin/python"
+      os_server_facts:
+        auth: "{{ creds.stdout | from_yaml }}"
+        # Required for SSL
+        validate_certs: no
+  when: undercloud_version | int < 17
 
-- name: Gather Overcloud nodes data
-  vars:
-    ansible_python_interpreter: "{{ venv_path }}/bin/python"
-  os_server_facts:
-    auth: "{{ creds.stdout | from_yaml }}"
-    # Required for SSL
-    validate_certs: no
+
+- name: get overcloud node data osp_version >= 17
+  block:
+    - name: Read clouds.yaml for osp17
+      command: cat ./overcloud-deploy/overcloud/tripleo-ansible-inventory.yaml
+      register: inv
+
+    - name: Read vars into yaml
+      vars:
+        inventory: {}
+      set_fact:
+        inventory: "{{ inventory | combine(item.value.hosts | default({'allovercloud': omit})) }}" 
+      with_dict: "{{ inv.stdout | from_yaml }}"
+      when: item.key != 'Undercloud'
+  when: undercloud_version | int >= 17
+
