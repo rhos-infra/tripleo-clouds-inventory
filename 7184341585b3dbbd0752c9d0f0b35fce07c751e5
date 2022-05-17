@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad6573ee_4b7358f9",
+        "filename": "roles/tripleo_clouds_inventory/tasks/overcloud_nodes.yml",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1019727
+      },
+      "writtenOn": "2022-05-17T07:14:59Z",
+      "side": 1,
+      "message": "I have this workaround on my setup becasue virtualenv cannot be installed on RHEL9 (maybe it\u0027s not necessary):\n\n- block:\n    # Delete the venv in order to avoid packages conflicts\n    - name: Delete existing venv if exists\n      vars:\n        ansible_python_interpreter: /usr/libexec/platform-python\n      file:\n        path: \"{{ venv_path }}\"\n        state: absent\n\n    - name: Install requirements for pip virtualenv\n      vars:\n        ansible_python_interpreter: /usr/libexec/platform-python\n        os_version: \u0027{%- if hostvars[groups[\u0027undercloud\u0027][0]].ansible_distribution_major_version \u003d\u003d \u00278\u0027 -%}\n                     rhel8\n                     {%- elif hostvars[groups[\u0027undercloud\u0027][0]].ansible_distribution_major_version \u003d\u003d \u00277\u0027 -%}\n                     rhel7\n                     {%- elif hostvars[groups[\u0027undercloud\u0027][0]].ansible_distribution_major_version \u003d\u003d \u00279\u0027 -%}\n                     rhel9\n                     {%- endif -%}\u0027\n        pkg_ver_list: \"{{ packages[os_version] }}\"\n      package:\n        name: \"{{ item }}\"\n        state: present\n      loop: \"{{ pkg_ver_list | flatten(levels\u003d1) }}\"\n      when: os_version !\u003d \"rhel9\"\n  become: true",
+      "revId": "7184341585b3dbbd0752c9d0f0b35fce07c751e5",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
