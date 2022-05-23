@@ -60,16 +60,6 @@
   delegate_to: "{{ groups['undercloud'] | first }}"
   delegate_facts: True
 
-- name: Read the /etc/rhosp-release file
-  slurp:
-    src: '/etc/rhosp-release'
-  register: rhosp_release_content
-  delegate_to: "{{ groups['undercloud'] | first }}"
-
-- name: Set Undercloud version from /etc/rhosp-release output
-  set_fact:
-    undercloud_version: "{{ rhosp_release_content.content | b64decode | regex_replace('^Red Hat OpenStack Platform release ([0-9]{2}).*', '\\1') | int }}"
-
 - block:
     - name: Gather overcloud nodes details
       import_tasks: overcloud_nodes.yml
@@ -112,52 +102,7 @@
                                   {{ undercloud_vm }} -W {{ item.addresses.ctlplane.0.addr }}:22\""
       loop: "{{ openstack_servers }}"
       when: setup_type == 'virt'
-  when: not undercloud_only|bool and undercloud_version | int < 17
-
-
-- block:
-    - name: Gather overcloud nodes details
-      import_tasks: overcloud_nodes.yml
-      delegate_to: "{{ groups['undercloud'] | first }}"
-  
-    - name: Add hosts to host list
-      add_host:
-        name: "{{ item.key }}"
-        groups: "{{ ( item.key in groups.all ) | ternary(omit,
-            ['overcloud_nodes', 'openstack_nodes', item.key.split('-')[0]] | join(',')
-           ) }}"
-        ansible_user: "{{ overcloud_user }}"
-        ansible_ssh_pass: ""
-        ansible_host: "{{ item.value | json_query('ansible_host') }}"
-        ansible_ssh_private_key_file: "{{ overcloud_private_key }}"
-      with_dict: "{{ inventory }}"
-  
-    - name: Enable SSH forwarding using Undercloud node for baremetal Overcloud nodes
-      vars:
-        ansible_python_interpreter: /usr/libexec/platform-python
-      add_host:
-        name: "{{ item.key }}"
-        ansible_ssh_common_args: "-o ForwardAgent=yes -o ServerAliveInterval=30 -o ControlMaster=auto -o ControlPersist=30 \
-                                  -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes \
-                                  -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-                                  -W %h:%p -i {{ hostvars[groups['undercloud'][0]].ansible_ssh_private_key_file }} \
-                                  {{ hostvars[groups['undercloud'][0]].ansible_user }}@{{ hostvars[groups['undercloud'][0]].ansible_host }}\""
-      with_dict: "{{ inventory }}"
-      when: setup_type == 'baremetal'
-  
-    - name: Enable SSH forwarding using Undercloud node for virt Overcloud nodes stop1
-      vars:
-        ansible_python_interpreter: /usr/libexec/platform-python
-      add_host:
-        name: "{{ item.key }}"
-        ansible_ssh_common_args: "-o ForwardAgent=yes -o ServerAliveInterval=30 -o ControlMaster=auto -o ControlPersist=30 \
-                                  -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o BatchMode=yes \
-                                  -o ProxyCommand=\"ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-                                  -F {{ environment_dir }}/ansible.ssh.config.{{ host }} \
-                                  {{ undercloud_vm }} -W {{ item.value | json_query('ctlplane_ip') }}:22\""
-      with_dict: "{{ inventory }}"
-      when: setup_type == 'virt'
-  when: not undercloud_only|bool and undercloud_version | int >= 17
+  when: not undercloud_only|bool
 
 - name: Update ansible.ssh.config for SSH tunneling
   vars:
