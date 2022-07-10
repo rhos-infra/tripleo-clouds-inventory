@@ -82,6 +82,27 @@ subparsers:
                           Multiple groups should be separated with comma.
                       default: 'hypervisor,shade'
                       ansible_variable: 'hypervisor_groups'
+                  tenant-vms:
+                      type: Bool
+                      help: |
+                          Whether to discover instances of a tenant.
+                      default: 'false'
+                      ansible_variable: 'tenant_vms'
+                  tenant-rcfile:
+                      type: Value
+                      help: |
+                         The path to the authentication file of the tenant
+                      ansible_variable: tenant_rc_file_path
+                  tenant-user:
+                      type: Value
+                      help: |
+                         The SSH user to connect to the tenant VMs
+                      ansible_variable: tenant_user
+                  tenant-servers:
+                      type: Value
+                      help: |
+                        Add to the inventory only the servers that match this filter
+                      ansible_variable: tenant_servers
                   undercloud-only:
                       type: Bool
                       help: |
