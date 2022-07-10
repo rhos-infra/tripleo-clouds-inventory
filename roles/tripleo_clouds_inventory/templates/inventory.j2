@@ -1,7 +1,19 @@
 localhost ansible_connection=local ansible_python_interpreter=python
 {% for host in groups['all'] %}
-{% if hostvars[host].get('ansible_connection', '') == 'local' %}
+{% if 'tenant_vms' in groups and host in groups['tenant_vms'] %}
+{{ host }} ansible_host={{ hostvars[host]['ansible_host'] }} ansible_user={{ tenant_user }}
+{%- if hostvars[host]['ansible_ssh_private_key_file'] is defined %} ansible_ssh_private_key_file={{ hostvars[host]['ansible_ssh_private_key_file'] }}
+
+{%- else %} ansible_ssh_pass={{ hostvars[host]['ansible_ssh_pass'] }}
+{%- endif %}
+
+{% if hostvars[host]['ansible_ssh_common_args'] is defined %} ansible_ssh_common_args='{{ hostvars[host]['ansible_ssh_common_args'] }}'
+
+{% endif %}
+
+{%- elif hostvars[host].get('ansible_connection', '') == 'local' %}
 {{ host }} ansible_connection=local ansible_python_interpreter=python
+
 {%- else %}
 
 {{ host }} ansible_host={{ hostvars[host]['ansible_host'] }} ansible_user={{ hostvars[host]['ansible_user'] }}
@@ -35,5 +47,11 @@ localhost ansible_connection=local ansible_python_interpreter=python
 [overcloud_nodes]
 {% endif %}
 
-[local]
-localhost
+{% if additional_groups is defined %}
+{% for group,hosts in additional_groups.items() %}
+[{{ group }}]
+{% for host in hosts %}
+{{ host }}
+{% endfor %}
+{% endfor %}
+{% endif %}

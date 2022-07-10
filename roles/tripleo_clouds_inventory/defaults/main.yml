@@ -42,3 +42,6 @@ undercloud_only: false
 
 # Localhost python interpreter
 local_ansible_python_interpreter: '/usr/bin/python'
+
+# Whether to look for tenant vms
+tenant_vms: false

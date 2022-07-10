@@ -1,0 +1,86 @@
+---
+- name: Check if python3 pip rpm package installed
+  package:
+    name: python3-pip
+    state: present
+  become: true
+  register: rpm_pip3
+  ignore_errors: yes
+  when: hostvars[groups['undercloud'][0]]['ansible_python']['version']['major'] == 3
+
+# Python 2 pip package needs to be installed directory from pypa
+# as it is no longer supported and package does not exists in repos.
+- block:
+    - name: Download pip from pypi
+      vars:
+        pip_pypi: "{%- if hostvars[groups['undercloud'][0]]['ansible_python']['version']['major'] == 2 -%}
+                      https://bootstrap.pypa.io/pip/2.7/get-pip.py
+                   {%- elif hostvars[groups['undercloud'][0]]['ansible_python']['version']['major'] == 3 -%}
+                      https://bootstrap.pypa.io/pip/get-pip.py
+                   {%- endif -%}"
+      get_url:
+        dest: "/tmp/get-pip.py"
+        url: "{{ pip_pypi }}"
+
+    - name: Install pip
+      vars:
+        ansible_python_interpreter: /usr/libexec/platform-python
+      command: "{{ ansible_python_interpreter }} /tmp/get-pip.py"
+      become: true
+  when: rpm_pip3.rc | default('') != 0 or
+        hostvars[groups['undercloud'][0]]['ansible_python']['version']['major'] == 2
+
+- name: Install virtualenv module
+  vars:
+    boolean: |
+      {%- if hostvars[groups['undercloud'][0]]['ansible_python']['version']['major'] == 2 -%}
+        False
+      {%- else -%}
+        True
+      {%- endif -%}
+    packages: "{%- if hostvars[groups['undercloud'][0]]['ansible_python']['version']['major'] == 2 -%}
+                 virtualenv==16.7.9
+               {%- else -%}
+                 setuptools, virtualenv
+               {%- endif -%}"
+  pip:
+    name: "{{ packages }}"
+  become: "{{ boolean | default(True) }}"
+
+- name: Install create virtualenv and openstacksdk packages
+  vars:
+    ansible_python_interpreter: /usr/libexec/platform-python
+  pip:
+    name:
+      - openstacksdk>=0.39,<0.40.0 ; python_version < '3'
+      - openstacksdk==0.61.0 ; python_version >= '3'
+    virtualenv: "{{ venv_path }}"
+    virtualenv_command: "/usr/libexec/platform-python -m virtualenv"
+
+- name: get tenant vms data osp_version < 17
+  block:
+    - name: Grab auth data from {{ tenant_rc_file_path }} file and publish it as YAML
+      ### ToDo(MaximB): Convert the task to more generic execution.
+      ###               Implement reuse.
+      vars:
+        ansible_python_interpreter: /usr/libexec/platform-python
+      shell: |
+          source "{{ tenant_rc_file_path }}"
+          echo "
+          auth_url: $OS_AUTH_URL
+          username: $OS_USERNAME
+          password: $OS_PASSWORD
+          project_name: ${OS_PROJECT_NAME:-$OS_TENANT_NAME}
+          user_domain_name: ${OS_USER_DOMAIN_NAME:-''}
+          project_domain_name: ${OS_PROJECT_DOMAIN_NAME:-''}
+          "
+      register: creds
+    
+    - name: Gather Tenant vms data
+      vars:
+        ansible_python_interpreter: "{{ venv_path }}/bin/python"
+      os_server_facts:
+        auth: "{{ creds.stdout | from_yaml }}"
+        # Required for SSL
+        validate_certs: no
+  when: undercloud_version | int < 17
