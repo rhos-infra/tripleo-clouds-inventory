@@ -148,6 +148,33 @@ Default value is set to - false
 undercloud_only: true
 ```
 
+If true, Discover the VMs of the tenant  
+```
+tenant_vms: false
+```
+
+When tenant_vms is true, Add to the inventory only VMs which their names match the *tenant_servers* filter
+```
+tenant_servers: 'installer*'
+```
+
+The path to the authentication file of the tenant (**tenant_vms** must be **true**)  
+```
+tenant_rc_file_path
+```
+
+The SSH user to connect to the tenant VMs ((**tenant_vms** must be **true**)
+```
+tenant-user
+```
+
+Add addiotional groups to the inventory  
+In the following example: Add the installer_host to the installer group  
+```
+additional_groups:
+  installer:
+    - installer_host
+```
 ***
 ## Examples
 The example of running the TripleO Clouds Inventory playbook.  
