@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75d5d23a_5e3a90a1",
+        "filename": "roles/tripleo_clouds_inventory/templates/ansible.ssh.config.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-07-17T14:00:29Z",
+      "side": 1,
+      "message": "This is not defined and will fail if not provided.\nAn omit filter can be applied to this.",
+      "range": {
+        "startLine": 37,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "31a81ad5fdfc2155c6034d42b7ffca97ebbfcc16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    }
+  ]
+}
