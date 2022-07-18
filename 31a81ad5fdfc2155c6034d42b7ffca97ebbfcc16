@@ -62,6 +62,30 @@
       },
       "revId": "31a81ad5fdfc2155c6034d42b7ffca97ebbfcc16",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd01a4e7_c886aa61",
+        "filename": "roles/tripleo_clouds_inventory/templates/ansible.ssh.config.j2",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1005532
+      },
+      "writtenOn": "2022-07-18T15:58:36Z",
+      "side": 1,
+      "message": "A tenant user must be defined",
+      "parentUuid": "75d5d23a_5e3a90a1",
+      "range": {
+        "startLine": 37,
+        "startChar": 12,
+        "endLine": 37,
+        "endChar": 23
+      },
+      "revId": "31a81ad5fdfc2155c6034d42b7ffca97ebbfcc16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
     }
   ]
 }
