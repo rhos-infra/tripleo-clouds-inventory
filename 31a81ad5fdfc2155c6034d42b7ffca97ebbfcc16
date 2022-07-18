@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73a73313_ab6fd1b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1016438
+      },
+      "writtenOn": "2022-07-18T07:52:46Z",
+      "side": 1,
+      "message": "My previous error was due to an edge case.\n",
+      "revId": "31a81ad5fdfc2155c6034d42b7ffca97ebbfcc16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "75d5d23a_5e3a90a1",
