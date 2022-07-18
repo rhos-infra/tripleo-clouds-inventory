@@ -20,6 +20,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd5cc315_b21093e9",
+        "filename": "roles/tripleo_clouds_inventory/tasks/main.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1018675
+      },
+      "writtenOn": "2022-07-18T14:18:13Z",
+      "side": 1,
+      "message": "shouldn\u0027t the condition also include tenant_vms for the entire block?",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 21
+      },
+      "revId": "31a81ad5fdfc2155c6034d42b7ffca97ebbfcc16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75d5d23a_5e3a90a1",
         "filename": "roles/tripleo_clouds_inventory/templates/ansible.ssh.config.j2",
         "patchSetId": 1
