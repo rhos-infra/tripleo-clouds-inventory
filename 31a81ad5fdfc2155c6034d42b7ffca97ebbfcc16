@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f5b03e52_b1808137",
+        "filename": "roles/tripleo_clouds_inventory/tasks/main.yml",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1005532
+      },
+      "writtenOn": "2022-07-19T06:42:04Z",
+      "side": 1,
+      "message": "If it\u0027s not undercloud_only it should also work for tenant_vms",
+      "parentUuid": "fd5cc315_b21093e9",
+      "range": {
+        "startLine": 208,
+        "startChar": 0,
+        "endLine": 208,
+        "endChar": 21
+      },
+      "revId": "31a81ad5fdfc2155c6034d42b7ffca97ebbfcc16",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "75d5d23a_5e3a90a1",
         "filename": "roles/tripleo_clouds_inventory/templates/ansible.ssh.config.j2",
         "patchSetId": 1
