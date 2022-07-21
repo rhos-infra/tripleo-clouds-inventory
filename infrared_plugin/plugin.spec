@@ -103,6 +103,13 @@ subparsers:
                       help: |
                         Add to the inventory only the servers that match this filter
                       ansible_variable: tenant_servers
+                  additional-groups:
+                      type: NestedDict
+                      action: append
+                      help: |
+                        Additional groups and the hosts to add to the inventory
+                        Example: --additional-groups installer=undercloud-0,installer_host --additional-groups group2=host1
+                      ansible_variable: additional_groups
                   undercloud-only:
                       type: Bool
                       help: |

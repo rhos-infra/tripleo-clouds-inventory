@@ -46,12 +46,13 @@ localhost ansible_connection=local ansible_python_interpreter=python
 {% if 'overcloud_nodes' not in groups %}
 [overcloud_nodes]
 {% endif %}
-
 {% if additional_groups is defined %}
 {% for group,hosts in additional_groups.items() %}
+
 [{{ group }}]
-{% for host in hosts %}
+{% for host in hosts.split(',') %}
 {{ host }}
 {% endfor %}
 {% endfor %}
 {% endif %}
+
