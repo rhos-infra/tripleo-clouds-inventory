@@ -38,11 +38,9 @@
   vars:
     ansible_python_interpreter: "{{ venv_path}}/bin/python"
   pip:
-    name:
-      - openstacksdk>=0.39,<0.40.0 ; python_version < '3'
-      - openstacksdk==0.61.0 ; python_version >= '3'
+    name: openstacksdk<=0.52
     virtualenv: "{{ venv_path }}"
-    #    virtualenv_command: "/usr/bin/python3 -m venv"
+    virtualenv_command: "/usr/bin/python3 -m virtualenv"
 
 - name: Fetch private key from the undercloud host
   vars:
