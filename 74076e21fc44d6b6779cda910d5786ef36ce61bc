@@ -1,0 +1,7 @@
+Code-Review+2: Vadim Khitrin <vkhitrin@redhat.com>
+Verified+1: Vadim Khitrin <vkhitrin@redhat.com>
+Submitted-by: Vadim Khitrin <vkhitrin@redhat.com>
+Submitted-at: Thu, 09 Feb 2023 15:53:14 +0000
+Reviewed-on: https://review.gerrithub.io/c/rhos-infra/tripleo-clouds-inventory/+/549138
+Project: rhos-infra/tripleo-clouds-inventory
+Branch: refs/heads/main
