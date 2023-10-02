@@ -9,6 +9,12 @@ inventory file is required.
 
 The role could be used as a standalone role or infrared plugin.
 
+## Caveats
+
+**This plugin/playbook doesn't support the native [openstack.cloud](https://galaxy.ansible.com/ui/repo/published/openstack/cloud/) collection.**
+
+**Tested on `ansible <= 2.9.27`.**
+
 ## Structure
 At the end of the play the following structure will appear:
 ```
